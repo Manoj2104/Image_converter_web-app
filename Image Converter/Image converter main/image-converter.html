@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Image Converter</title>
+    <style>
+      /* Style the file input and label */
+      input[type="file"] {
+        display: none;
+      }
+      
+      label {
+        display: block;
+        margin: 50px auto;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 200px;
+      }
+      
+      button {
+        display: none;
+        margin: 50px auto;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+      }
+
+      button:hover, label:hover {
+        background-color: #3e8e41;
+      }
+
+      button:active, label:active {
+        background-color: #1f5228;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(3px);
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f2f2f2;
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        margin: 50px auto;
+        max-width: 600px;
+      }
+@media only screen and (max-width: 767px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin: 50px auto;
+    max-width: 600px;
+  }
+}
+
+
+      img {
+        max-width: 100%;
+        margin: 50px auto;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+      }
+      
+      /* Style the drop zone */
+      #drop-zone {
+        border: 2px dashed #ddd;
+        padding: 75px;
+        margin: 25px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 19px;
+        
+        color: #888;
+        max-width: 400px;
+      }
+      
+      /* Style the drop zone when a file is being dragged over it */
+      #drop-zone.dragover {
+        background-color: #f0f0f0;
+      }
+.container {
+  background-image: url("your-image-url-here");
+  background-size: cover;
+  background-position: center;
+}
+
+body {
+  background-image: url("https://cdn.pixabay.com/photo/2017/08/02/12/33/pastel-2571378_960_720.jpg");
+  background-size: cover;
+  background-position: center;
+}
+footer {
+  background-color: #f2f2f2;
+  padding: 20px;
+  text-align: center;
+  text-color: #fffff;
+  position: bottom;
+  bottom: 0;
+  width: 100%;
+}
+
+footer p {
+  color: #666;
+  font-size: 14px;
+  bottom: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    </style>
+  </head>
+  <body>
+<h3>
+ Image Converter
+</h3>
+    <div class="container">
+      <form>
+        <label for="image">Select The Image:</label>
+        <input type="file" id="image" name="image" accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/svg+xml">
+
+<label1>Choose file format:</label1>
+<input type="checkbox" name="png" value="png">PNG
+<input type="checkbox" name="jpg" value="jpg">JPG
+<input type="checkbox" name="gif" value="gif">GIF
+<input type="checkbox" name="svg" value="svg">SVG
+<input type="checkbox" name="webp" value="webp">WEBP
+<input type="checkbox" name="bmp" value="bmp">BMP
+<input type="checkbox" name="pdf" value="pdf">PDF
+
+     </form>
+      <div id="drop-zone" accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/svg+xml">Drag and drop your image file here, or click to select a file.</div>
+      <img id="preview" src="" alt="">
+      <button id="download">Download</button>
+      
+    </div>
+    
+    
+    <script>
+const input = document.getElementById('image');
+// Listen for the file input change event
+  input.addEventListener('change', () => {
+    // Check if a file was selected
+    if (input.files.length > 0) {
+      // Get the selected file
+      const file = input.files[0];
+      
+      // Check if the file is an image
+      if (file.type.startsWith('image/')) {
+        // Create a URL for the selected file
+        const url = URL.createObjectURL(file);
+        
+        // Set the preview image source
+        const preview = document.getElementById('preview');
+        preview.src = url;
+        
+        // Show the download button
+        downloadButton.style.display = 'block';
+      }
+    }
+  });
+// Handle drag and drop events
+const dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', (event) => {
+  event.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', (event) => {
+  event.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = event.dataTransfer.files[0];
+  const reader = new FileReader();
+  reader.onload = () => {
+    const preview = document.getElementById('preview');
+    preview.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// Get the download button element
+const downloadButton = document.getElementById('download');
+
+// Listen for the download button click event
+downloadButton.addEventListener('click', () => {
+  // Get the selected image element
+  const preview = document.getElementById('preview');
+  
+  // Get the selected file format checkboxes
+  const pngCheckbox = document.getElementsByName('png')[0];
+  const jpgCheckbox = document.getElementsByName('jpg')[0];
+  const gifCheckbox = document.getElementsByName('gif')[0];
+  const svgCheckbox = document.getElementsByName('svg')[0];
+  const webpCheckbox = document.getElementsByName('webp')[0];
+  const bmpCheckbox = document.getElementsByName('bmp')[0];
+  const pdfCheckbox = document.getElementsByName('pdf')[0];
+  // Determine the selected file format
+  let format = '';
+  if (pngCheckbox.checked) {
+    format = 'png';
+  } else if (jpgCheckbox.checked) {
+    format = 'jpg';
+  } else if (gifCheckbox.checked) {
+    format = 'gif';
+  } else if (svgCheckbox.checked) {
+    format = 'svg+xml';
+  } else if (webpCheckbox.checked) {
+    format = 'webp';
+  } else if (bmpCheckbox.checked) {
+    format = 'bmp';
+  } else if (pdfCheckbox.checked) {
+    format = 'pdf';
+  }
+  
+  // Generate and download the selected image in the selected format
+  if (format !== '') {
+    const link = document.createElement('a');
+    link.download = `image.${format}`;
+    link.href = preview.src.replace(/^data:image\/[^;]/, `data:image/${format}`);
+    link.click();
+  }
+});
+     
+</script>
+<footer>
+  <p>&copy; 2023 Image Converter.com All rights reserved.</p>
+</footer>
+
+</body>
+</html>
